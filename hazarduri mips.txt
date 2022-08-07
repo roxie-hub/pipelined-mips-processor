@@ -1,0 +1,41 @@
+Hazardurile structurale le-am rezolvat folosind falling_edge(clk).
+
+1. addi $6, $0, 1
+2. lw $2, $0, 10
+3. sub $1 , $1 , $1
+4. sub $3 ,  $3 ,  $3
+5. sub $4 ,  $4 ,  $4
+6. lw $4 , $1, 0 -> Hazard de date cu (9)
+
+7. add $0, $0, $0
+8. add $0, $0, $0
+
+9. and $7 , $4, $6 -> Hazard de date cu (12)
+
+10. add $0, $0, $0
+11. add $0, $0, $0
+
+12. beq $7, $0, 4 -> Hazard de control cu (16)
+13. add $0, $0, $0
+14. add $0, $0, $0
+15. add $0, $0, $0
+
+16. add $3, $3, $4
+17. addi $1 , $1 , 2 -> Hazard de date cu (20)
+18. add $0, $0, $0
+19. add $0, $0, $0
+
+20. beq $1 , $2 , 4 -> Hazard de control (24)
+21. add $0, $0, $0
+22. add $0, $0, $0
+23. add $0, $0, $0
+
+24. j 4 -> Hazard de control (26)
+25. add $0, $0, $0
+
+26. sw $3, $0, 10
+
+-----------------
+add $0, $0, $0 noOp folosit
+
+COMENTARIU: Nu am mai avut timp sa fac debbuging , dar am observat ca la jump intra intr-o bucla infinita si nu prea stiu de ce(momentan).
